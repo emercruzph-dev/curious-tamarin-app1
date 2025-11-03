@@ -94,6 +94,9 @@ const MoviesPage: React.FC = () => {
                         {genre}
                       </Badge>
                     ))}
+                    <Badge variant="outline" className="text-xs">
+                      {movie.rating}
+                    </Badge>
                   </div>
                 </CardContent>
               </Card>
