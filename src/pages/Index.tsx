@@ -1,19 +1,9 @@
-// Update this page (the content is just a fallback if you fail to update the page)
-
-import { MadeWithDyad } from "@/components/made-with-dyad";
-
+// This file is no longer the main entry point for content.
+// The App.tsx now uses a Layout component with tab navigation.
+// You can remove this file if it's no longer needed, or repurpose it.
+// For now, it's left empty to avoid conflicts.
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">
-          Start building your amazing project here!
-        </p>
-      </div>
-      <MadeWithDyad />
-    </div>
-  );
+  return null;
 };
 
 export default Index;
