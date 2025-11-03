@@ -28,6 +28,12 @@ const MoviesPage: React.FC = () => {
     return matchesSearch;
   });
 
+  // Sort locations with "Metro Manila" always at the top
+  const otherLocations = locations.filter(loc => loc !== "Metro Manila").sort();
+  const sortedLocations = ["Metro Manila", ...otherLocations];
+  
+  const sortedMetroManilaCities = [...metroManilaCities].sort();
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-2">
@@ -43,7 +49,7 @@ const MoviesPage: React.FC = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Locations</SelectItem>
-            {locations.map((loc) => (
+            {sortedLocations.map((loc) => (
               <SelectItem key={loc} value={loc}>
                 {loc}
               </SelectItem>
@@ -58,7 +64,7 @@ const MoviesPage: React.FC = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Cities</SelectItem>
-              {metroManilaCities.map((city) => (
+              {sortedMetroManilaCities.map((city) => (
                 <SelectItem key={city} value={city}>
                   {city}
                 </SelectItem>
