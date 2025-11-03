@@ -15,6 +15,7 @@ export const metroManilaCities: MetroManilaCity[] = [
   "Navotas",
   "Pasay",
   "Valenzuela",
+  "Muntinlupa",
 ];
 
 export const locations: Location[] = [
