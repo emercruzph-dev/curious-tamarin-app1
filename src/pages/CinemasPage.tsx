@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { mockCinemas, locations, metroManilaCities, Cinema, Location, MetroManilaCity } from "@/data/mockData";
+import { mockCinemas, locations, metroManilaCities, Cinema, Location, MetroManilaCity } from "@/data"; // Corrected import path
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

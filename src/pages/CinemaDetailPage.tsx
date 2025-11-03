@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
-import { mockCinemas, mockMovies, Cinema, Movie, Showtime } from "@/data/mockData";
+import { mockCinemas, mockMovies, Cinema, Movie, Showtime } from "@/data"; // Corrected import path
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
