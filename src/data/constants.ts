@@ -7,6 +7,14 @@ export const metroManilaCities: MetroManilaCity[] = [
   "Makati",
   "Taguig",
   "Pasig",
+  "Las Piñas",
+  "Manila",
+  "Caloocan",
+  "Marikina",
+  "Malabon",
+  "Navotas",
+  "Pasay",
+  "Valenzuela",
 ];
 
 export const locations: Location[] = [
