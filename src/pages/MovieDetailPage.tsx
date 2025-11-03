@@ -1,19 +1,26 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
-import { mockMovies, mockCinemas, metroManilaCities, Movie, Cinema, Showtime, Location, MetroManilaCity } from "@/data"; // Corrected import path
+import { mockMovies, mockCinemas, metroManilaCities, Movie, Cinema, Showtime, Location, MetroManilaCity } from "@/data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { PlayCircle, Clock, CalendarDays, Film, MapPin } from "lucide-react";
+import { PlayCircle, Clock, CalendarDays, Film, MapPin, LocateFixed } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useUserLocation } from "@/hooks/useUserLocation";
+import { getDistance } from "@/utils/location";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const MovieDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const movie = mockMovies.find((m) => m.id === id);
   const [selectedLocation, setSelectedLocation] = React.useState<Location | "all">("all");
   const [selectedMetroManilaCity, setSelectedMetroManilaCity] = React.useState<MetroManilaCity | "all">("all");
+  const [showNearby, setShowNearby] = React.useState(false);
+
+  const userLocation = useUserLocation();
 
   if (!movie) {
     return (
@@ -35,15 +42,33 @@ const MovieDetailPage: React.FC = () => {
     }
   };
 
-  const cinemasShowingMovie = mockCinemas.filter((cinema) => {
-    const hasMovie = cinema.moviesPlaying.some((mp) => mp.movieId === movie.id);
-    const matchesLocation = selectedLocation === "all" || cinema.location === selectedLocation;
-    const matchesCity =
-      selectedLocation !== "Metro Manila" ||
-      selectedMetroManilaCity === "all" ||
-      cinema.city === selectedMetroManilaCity;
-    return hasMovie && matchesLocation && matchesCity;
-  });
+  const filteredAndSortedCinemas = React.useMemo(() => {
+    let cinemas = mockCinemas.filter((cinema) => {
+      const hasMovie = cinema.moviesPlaying.some((mp) => mp.movieId === movie.id);
+      const matchesLocation = selectedLocation === "all" || cinema.location === selectedLocation;
+      const matchesCity =
+        selectedLocation !== "Metro Manila" ||
+        selectedMetroManilaCity === "all" ||
+        cinema.city === selectedMetroManilaCity;
+      return hasMovie && matchesLocation && matchesCity;
+    });
+
+    if (showNearby && userLocation.latitude && userLocation.longitude) {
+      cinemas = cinemas
+        .map((cinema) => {
+          const distance = getDistance(
+            userLocation.latitude!,
+            userLocation.longitude!,
+            cinema.latitude,
+            cinema.longitude
+          );
+          return { ...cinema, distance };
+        })
+        .sort((a, b) => a.distance - b.distance);
+    }
+
+    return cinemas;
+  }, [movie.id, selectedLocation, selectedMetroManilaCity, showNearby, userLocation]);
 
   // Sort locations with "Metro Manila" always at the top
   const allLocations = Array.from(new Set(mockCinemas.map(c => c.location)));
@@ -139,9 +164,28 @@ const MovieDetailPage: React.FC = () => {
           )}
         </div>
 
-        {cinemasShowingMovie.length > 0 ? (
+        <div className="flex items-center space-x-2 justify-end">
+          <LocateFixed className="h-4 w-4 text-muted-foreground" />
+          <Label htmlFor="show-nearby-movie">Show Nearby Cinemas</Label>
+          <Switch
+            id="show-nearby-movie"
+            checked={showNearby}
+            onCheckedChange={setShowNearby}
+            disabled={userLocation.loading || userLocation.error !== null}
+          />
+        </div>
+        {userLocation.loading && showNearby && (
+          <p className="text-sm text-muted-foreground text-right">Getting your location...</p>
+        )}
+        {userLocation.error && showNearby && (
+          <p className="text-sm text-destructive text-right">
+            {userLocation.error} Please enable location services.
+          </p>
+        )}
+
+        {filteredAndSortedCinemas.length > 0 ? (
           <div className="space-y-4">
-            {cinemasShowingMovie.map((cinema) => {
+            {filteredAndSortedCinemas.map((cinema) => {
               const movieShowtimes = cinema.moviesPlaying.find(
                 (mp) => mp.movieId === movie.id
               )?.showtimes;
@@ -162,6 +206,11 @@ const MovieDetailPage: React.FC = () => {
                     <p className="text-sm text-muted-foreground flex items-center gap-1">
                       <MapPin className="h-4 w-4" /> {cinema.address}
                     </p>
+                    {showNearby && typeof cinema.distance === 'number' && (
+                      <p className="text-sm text-primary mt-2">
+                        {cinema.distance.toFixed(2)} km away
+                      </p>
+                    )}
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">

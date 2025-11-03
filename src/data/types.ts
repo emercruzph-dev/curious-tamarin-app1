@@ -12,7 +12,17 @@ export type MetroManilaCity =
   | "Parañaque"
   | "Makati"
   | "Taguig"
-  | "Pasig";
+  | "Pasig"
+  | "Las Piñas"
+  | "Manila"
+  | "Caloocan"
+  | "Marikina"
+  | "Malabon"
+  | "Navotas"
+  | "Pasay"
+  | "Valenzuela"
+  | "Muntinlupa"
+  | "Novaliches"; // Added Novaliches
 
 export interface Showtime {
   time: string; // e.g., "10:00 AM", "01:30 PM"
@@ -40,6 +50,8 @@ export interface Cinema {
   city?: MetroManilaCity; // Optional city property for Metro Manila cinemas
   address: string;
   contact: string;
+  latitude: number; // Added latitude
+  longitude: number; // Added longitude
   moviesPlaying: {
     movieId: string;
     showtimes: Showtime[];
