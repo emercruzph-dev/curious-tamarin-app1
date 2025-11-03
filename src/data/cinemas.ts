@@ -1,45 +1,98 @@
 import { Cinema, Showtime } from "./types";
 
-// Helper function to create numbered cinemas from a base cinema entry
-function createNumberedCinemas(
+// Define a standard set of movies and showtimes to distribute
+const standardMoviesPlaying = [
+  {
+    movieId: "m1",
+    showtimes: [
+      { time: "10:00 AM", type: "2D" },
+      { time: "01:30 PM", type: "2D" },
+      { time: "04:00 PM", type: "2D" },
+      { time: "07:00 PM", type: "2D" },
+      { time: "09:30 PM", type: "2D" },
+    ],
+  },
+  {
+    movieId: "m2",
+    showtimes: [
+      { time: "11:00 AM", type: "2D" },
+      { time: "02:00 PM", type: "2D" },
+      { time: "05:00 PM", type: "2D" },
+      { time: "08:00 PM", type: "2D" },
+    ],
+  },
+  {
+    movieId: "m3",
+    showtimes: [
+      { time: "10:30 AM", type: "2D" },
+      { time: "01:00 PM", type: "2D" },
+      { time: "04:30 PM", type: "2D" },
+      { time: "07:30 PM", type: "2D" },
+    ],
+  },
+  {
+    movieId: "m4",
+    showtimes: [
+      { time: "12:00 PM", type: "2D" },
+      { time: "03:00 PM", type: "2D" },
+      { time: "06:00 PM", type: "2D" },
+      { time: "09:00 PM", type: "2D" },
+    ],
+  },
+  {
+    movieId: "m5",
+    showtimes: [
+      { time: "10:45 AM", type: "2D" },
+      { time: "01:45 PM", type: "2D" },
+      { time: "04:45 PM", type: "2D" },
+      { time: "07:45 PM", type: "2D" },
+    ],
+  },
+];
+
+// Helper function to create cinemas based on a list of screen names
+function createCinemasFromScreenList(
   baseCinema: Omit<Cinema, 'id' | 'name' | 'moviesPlaying'>,
   baseName: string,
-  numCinemas: number,
-  moviesPlaying: { movieId: string; showtimes: Showtime[] }[]
+  screenNames: string[],
+  availableMovies: { movieId: string; showtimes: Showtime[] }[] = standardMoviesPlaying
 ): Cinema[] {
-  const numberedCinemas: Cinema[] = [];
+  return screenNames.map((screenName, index) => {
+    const cinemaId = `${baseCinema.id}-${screenName.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+    const cinemaFullName = `${baseName} - ${screenName}`;
 
-  for (let i = 0; i < numCinemas; i++) {
-    const cinemaId = `${baseCinema.id}-cinema${i + 1}`;
-    const cinemaName = `${baseName} Cinema ${i + 1}`;
-    const assignedMovies: { movieId: string; showtimes: Showtime[] }[] = [];
+    // Distribute movies in a round-robin fashion to ensure each cinema gets some movies
+    const moviesForThisCinema: { movieId: string; showtimes: Showtime[] }[] = [];
+    if (availableMovies.length > 0) {
+      // Assign 1-2 unique movies per screen
+      const assignedMovieIndices = new Set<number>();
+      const numMoviesToAssign = Math.min(2, availableMovies.length);
 
-    // Distribute movies somewhat evenly in a round-robin fashion
-    for (let j = 0; j < moviesPlaying.length; j++) {
-      if (j % numCinemas === i) {
-        assignedMovies.push(moviesPlaying[j]);
+      for (let i = 0; i < numMoviesToAssign; i++) {
+        let movieIndex = (index + i) % availableMovies.length;
+        // Ensure unique movies for this specific cinema if possible
+        while (assignedMovieIndices.has(movieIndex) && assignedMovieIndices.size < availableMovies.length) {
+          movieIndex = (movieIndex + 1) % availableMovies.length;
+        }
+        assignedMovieIndices.add(movieIndex);
+        moviesForThisCinema.push(availableMovies[movieIndex]);
       }
     }
 
-    // Ensure each cinema has at least one movie if available, to avoid empty lists
-    // This also helps if numCinemas is greater than moviesPlaying.length
-    if (assignedMovies.length === 0 && moviesPlaying.length > 0) {
-      assignedMovies.push(moviesPlaying[i % moviesPlaying.length]);
-    }
-
-    numberedCinemas.push({
+    return {
       ...baseCinema,
       id: cinemaId,
-      name: cinemaName,
-      moviesPlaying: assignedMovies,
-    });
-  }
-  return numberedCinemas;
+      name: cinemaFullName,
+      moviesPlaying: moviesForThisCinema,
+    };
+  });
 }
 
 export const mockCinemas: Cinema[] = [
-  // SM Megamall
-  ...createNumberedCinemas(
+  // --- METRO MANILA CINEMAS ---
+
+  // MANDALUYONG CITY
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
       city: "Mandaluyong",
@@ -47,331 +100,71 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8633-5041",
     },
     "SM Megamall",
-    8, // Increased to 8 regular cinemas
-    [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-          { time: "09:30 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-          { time: "08:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:30 PM", type: "2D" },
-          { time: "07:30 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-          { time: "06:00 PM", type: "2D" },
-          { time: "09:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "10:45 AM", type: "2D" },
-          { time: "01:45 PM", type: "2D" },
-          { time: "04:45 PM", type: "2D" },
-          { time: "07:45 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Cinema 7", "Cinema 8", "Cinema 9", "Cinema 10", "Cinema 11", "Cinema 12", "IMAX", "Director's Club"]
   ),
-  {
-    id: "c1-imax",
-    name: "SM Megamall - IMAX",
-    location: "Metro Manila",
-    city: "Mandaluyong",
-    address: "EDSA, Mandaluyong, Metro Manila",
-    contact: "(02) 8633-5041",
-    moviesPlaying: [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "04:00 PM", type: "IMAX" },
-          { time: "09:30 PM", type: "IMAX" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "c1-directors-club",
-    name: "SM Megamall - Director's Club",
-    location: "Metro Manila",
-    city: "Mandaluyong",
-    address: "EDSA, Mandaluyong, Metro Manila",
-    contact: "(02) 8633-5041",
-    moviesPlaying: [
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "05:00 PM", type: "Director's Club" },
-        ],
-      },
-    ],
-  },
-
-  // Robinsons Galleria Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
-      city: "Quezon City",
-      address: "EDSA cor. Ortigas Ave., Quezon City, Metro Manila",
-      contact: "(02) 8631-8000",
+      city: "Mandaluyong",
+      address: "Shangri-La Plaza, Mandaluyong, Metro Manila",
+      contact: "(02) 8633-7851",
     },
-    "Robinsons Galleria",
-    5, // Increased to 5 regular cinemas
-    [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "11:30 AM", type: "2D" },
-          { time: "02:30 PM", type: "2D" },
-          { time: "06:00 PM", type: "2D" },
-          { time: "09:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:30 PM", type: "2D" },
-          { time: "07:30 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-          { time: "09:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    "Shangri-La Plaza",
+    ["Red Carpet Cinema 1", "Red Carpet Cinema 2", "Red Carpet Cinema 3", "Red Carpet Cinema 4"]
   ),
-
-  // Ayala Malls Manila Bay Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
-      city: "Parañaque",
-      address: "Aseana Ave., Parañaque, Metro Manila",
+      city: "Mandaluyong",
+      address: "ADB Ave, Ortigas Center, Mandaluyong, Metro Manila",
+      contact: "(02) 8638-9781",
+    },
+    "The Podium",
+    ["Podium Cinema 1", "Podium Cinema 2", "Podium Cinema 3"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Mandaluyong",
+      address: "EDSA corner Madison St., Mandaluyong, Metro Manila",
+      contact: "(02) 8717-0000",
+    },
+    "SM Light Mall",
+    ["Cinema 1", "Cinema 2"]
+  ),
+
+  // PASIG CITY
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Pasig",
+      address: "Capitol Commons, Meralco Ave, Pasig, Metro Manila",
+      contact: "(02) 7755-0000",
+    },
+    "Estancia Mall",
+    ["Estancia Cinema 1", "Estancia Cinema 2", "Estancia Cinema 3", "Estancia Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Pasig",
+      address: "Meralco Ave, Pasig, Metro Manila",
       contact: "(02) 7759-8000",
     },
-    "Ayala Malls Manila Bay",
-    6, // Increased to 6 regular cinemas
-    [
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:30 PM", type: "2D" },
-          { time: "06:00 PM", type: "2D" },
-          { time: "09:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:30 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "11:15 AM", type: "2D" },
-          { time: "02:15 PM", type: "2D" },
-          { time: "05:15 PM", type: "2D" },
-        ],
-      },
-    ]
+    "Ayala Malls The 30th",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
-
-  // SM Aura Premier
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
-      city: "Taguig",
-      address: "C5 Road, Taguig, Metro Manila",
-      contact: "(02) 8815-7888",
+      city: "Pasig",
+      address: "Ortigas Ave Ext, Pasig, Metro Manila",
+      contact: "(02) 8655-0000",
     },
-    "SM Aura Premier",
-    5, // Increased to 5 regular cinemas
-    [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "03:30 PM", type: "2D" },
-          { time: "06:30 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-          { time: "08:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "12:30 PM", type: "2D" },
-          { time: "03:30 PM", type: "2D" },
-        ],
-      },
-    ]
+    "SM City East Ortigas",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
-  {
-    id: "c12-directors-club",
-    name: "SM Aura Premier - Director's Club",
-    location: "Metro Manila",
-    city: "Taguig",
-    address: "C5 Road, Taguig, Metro Manila",
-    contact: "(02) 8815-7888",
-    moviesPlaying: [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "01:00 PM", type: "Director's Club" },
-          { time: "07:00 PM", type: "Director's Club" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "c12-imax",
-    name: "SM Aura Premier - IMAX",
-    location: "Metro Manila",
-    city: "Taguig",
-    address: "C5 Road, Taguig, Metro Manila",
-    contact: "(02) 8815-7888",
-    moviesPlaying: [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "06:00 PM", type: "IMAX" },
-          { time: "09:30 PM", type: "IMAX" },
-        ],
-      },
-    ],
-  },
-
-  // Greenbelt 3
-  ...createNumberedCinemas(
-    {
-      location: "Metro Manila",
-      city: "Makati",
-      address: "Ayala Center, Makati, Metro Manila",
-      contact: "(02) 7752-7272",
-    },
-    "Greenbelt 3",
-    4, // Increased to 4 regular cinemas
-    [
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-          { time: "08:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-        ],
-      },
-    ]
-  ),
-  {
-    id: "c13-directors-club",
-    name: "Greenbelt 3 - Director's Club",
-    location: "Metro Manila",
-    city: "Makati",
-    address: "Ayala Center, Makati, Metro Manila",
-    contact: "(02) 7752-7272",
-    moviesPlaying: [
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "04:00 PM", type: "Director's Club" },
-          { time: "09:00 PM", type: "Director's Club" },
-        ],
-      },
-    ],
-  },
-
-  // Robinsons Metro East Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
       city: "Pasig",
@@ -379,83 +172,311 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8681-0530",
     },
     "Robinsons Metro East",
-    4, // Increased to 4 regular cinemas
-    [
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-          { time: "08:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
 
-  // Robinsons Place Las Piñas Cinema
-  ...createNumberedCinemas(
+  // QUEZON CITY
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "EDSA, Quezon City, Metro Manila",
+      contact: "(02) 8929-1671",
+    },
+    "SM North EDSA",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Cinema 7", "Cinema 8", "IMAX", "Director's Club"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "EDSA cor. North Ave., Quezon City, Metro Manila",
+      contact: "(02) 8925-7777",
+    },
+    "Trinoma",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Cinema 7"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "Araneta Center, Quezon City, Metro Manila",
+      contact: "(02) 8911-5555",
+    },
+    "Gateway Cineplex 18",
+    Array.from({ length: 18 }, (_, i) => `Cinema ${i + 1}`)
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "Aurora Blvd, Quezon City, Metro Manila",
+      contact: "(02) 8961-0000",
+    },
+    "Robinsons Magnolia",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "Quezon Ave, Quezon City, Metro Manila",
+      contact: "(02) 8294-9000",
+    },
+    "Fisher Mall",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "Katipunan Ave, Quezon City, Metro Manila",
+      contact: "(02) 7759-8000",
+    },
+    "UP Town Center",
+    ["Cinema 1", "Cinema 2", "Cinema 3"]
+  ),
+
+  // MARIKINA
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Marikina",
+      address: "Marcos Hwy, Marikina, Metro Manila",
+      contact: "(02) 8477-1788",
+    },
+    "SM City Marikina",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Marikina",
+      address: "Marcos Hwy, Marikina, Metro Manila",
+      contact: "(02) 8681-0000",
+    },
+    "Bluewave Marikina",
+    ["Cinema 1", "Cinema 2"]
+  ),
+
+  // MAKATI
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Makati",
+      address: "Ayala Center, Makati, Metro Manila",
+      contact: "(02) 7752-7272",
+    },
+    "Glorietta",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Makati",
+      address: "Ayala Center, Makati, Metro Manila",
+      contact: "(02) 7752-7272",
+    },
+    "Greenbelt 1",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Makati",
+      address: "Ayala Center, Makati, Metro Manila",
+      contact: "(02) 7752-7272",
+    },
+    "Greenbelt 3",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Cinema 7", "Director's Club"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Makati",
+      address: "Century City, Makati, Metro Manila",
+      contact: "(02) 8705-6200",
+    },
+    "Century City Mall",
+    ["Cinema 1", "Cinema 2"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Makati",
+      address: "Rockwell Center, Makati, Metro Manila",
+      contact: "(02) 8898-1702",
+    },
+    "Power Plant Mall",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6"]
+  ),
+
+  // PASAY
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Pasay",
+      address: "SM Mall of Asia Complex, Pasay, Metro Manila",
+      contact: "(02) 8556-0600",
+    },
+    "SM Mall of Asia",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "IMAX", "Director's Club"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Pasay",
+      address: "Newport Blvd, Pasay, Metro Manila",
+      contact: "(02) 8908-8888",
+    },
+    "Newport World Resorts",
+    ["Newport Cinema 1", "Newport Cinema 2", "Newport Cinema 3", "Newport Cinema 4", "VIP Cinema"]
+  ),
+
+  // PARAÑAQUE
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Parañaque",
+      address: "Dr. A. Santos Ave, Parañaque, Metro Manila",
+      contact: "(02) 8820-0000",
+    },
+    "SM City Sucat",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Parañaque",
+      address: "Dr. A. Santos Ave, Parañaque, Metro Manila",
+      contact: "(02) 8829-0000",
+    },
+    "SM City BF Parañaque",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Parañaque",
+      address: "Aseana Ave., Parañaque, Metro Manila",
+      contact: "(02) 7759-8000",
+    },
+    "Ayala Malls Manila Bay",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "A-Giant Screen", "Director's Club 1", "Director's Club 2"]
+  ),
+
+  // TAGUIG
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Taguig",
+      address: "Market! Market!, Taguig, Metro Manila",
+      contact: "(02) 8886-7600",
+    },
+    "Market! Market!",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Taguig",
+      address: "McKinley Hill, Taguig, Metro Manila",
+      contact: "(02) 7798-0000",
+    },
+    "Venice Grand Canal Mall",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Taguig",
+      address: "Uptown Bonifacio, Taguig, Metro Manila",
+      contact: "(02) 7798-0000",
+    },
+    "Uptown Mall Bonifacio",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Ultra Cinema"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Taguig",
+      address: "C5 Road, Taguig, Metro Manila",
+      contact: "(02) 8815-7888",
+    },
+    "SM Aura Premier",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Director's Club"]
+  ),
+
+  // NOVALICHES
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Novaliches",
+      address: "Quirino Hwy, Novaliches, Quezon City, Metro Manila",
+      contact: "(02) 8939-0000",
+    },
+    "SM City Novaliches",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+
+  // NAVOTAS
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Navotas",
+      address: "C3 Road, Navotas, Metro Manila",
+      contact: "(02) 8281-0000",
+    },
+    "Navotas Cinema",
+    ["Cinema 1", "Cinema 2"]
+  ),
+
+  // LAS PIÑAS
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
       city: "Las Piñas",
       address: "Alabang–Zapote Road, Las Piñas, Metro Manila",
       contact: "(02) 8800-0000",
     },
-    "Robinsons Place Las Piñas",
-    3, // 3 regular cinemas
-    [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-        ],
-      },
-    ]
+    "SM Southmall",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Director's Club 1", "Director's Club 2"]
   ),
 
-  // SM City Manila Cinema
-  ...createNumberedCinemas(
+  // MUNTINLUPA
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Muntinlupa",
+      address: "Alabang–Zapote Road, Muntinlupa, Metro Manila",
+      contact: "(02) 8842-1888",
+    },
+    "Alabang Town Center",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Muntinlupa",
+      address: "Filinvest City, Muntinlupa, Metro Manila",
+      contact: "(02) 8850-3555",
+    },
+    "Festival Mall",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Director's Club 1", "Director's Club 2"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Muntinlupa",
+      address: "National Road, Muntinlupa, Metro Manila",
+      contact: "(02) 8862-0000",
+    },
+    "SM Center Muntinlupa",
+    ["Cinema 1", "Cinema 2"]
+  ),
+
+  // MANILA
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
       city: "Manila",
@@ -463,433 +484,127 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8523-7044",
     },
     "SM City Manila",
-    4, // Increased to 4 regular cinemas
-    [
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "04:30 PM", type: "2D" },
-          { time: "07:30 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "11:30 AM", type: "2D" },
-          { time: "02:30 PM", type: "2D" },
-          { time: "05:30 PM", type: "2D" },
-          { time: "08:30 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6"]
   ),
-
-  // SM City Caloocan Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
-      city: "Caloocan",
-      address: "Bagong Barrio, Caloocan, Metro Manila",
-      contact: "(02) 8362-0000",
+      city: "Manila",
+      address: "Pedro Gil St, Ermita, Manila",
+      contact: "(02) 8526-0000",
     },
-    "SM City Caloocan",
-    3, // 3 regular cinemas
-    [
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-        ],
-      },
-    ]
+    "Robinsons Place Manila",
+    Array.from({ length: 8 }, (_, i) => `Cinema ${i + 1}`)
   ),
-
-  // Ayala Malls South Park Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Metro Manila",
-      city: "Muntinlupa",
-      address: "National Road, Alabang, Muntinlupa, Metro Manila",
-      contact: "(02) 7759-8000",
+      city: "Manila",
+      address: "Binondo, Manila",
+      contact: "(02) 8242-0000",
     },
-    "Ayala Malls South Park",
-    3, // 3 regular cinemas
-    [
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-        ],
-      },
-    ]
+    "Lucky Chinatown Mall",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "VIP Cinema"]
   ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Manila",
+      address: "C.M. Recto Ave, Manila",
+      contact: "(02) 8733-0000",
+    },
+    "Ever Gotesco Manila Plaza",
+    ["Cinema 1", "Cinema 2"]
+  ),
+
+  // MALABON
+  ...createCinemasFromScreenList(
+    {
+      location: "Metro Manila",
+      city: "Malabon",
+      address: "C4 Road, Malabon, Metro Manila",
+      contact: "(02) 8294-9000",
+    },
+    "Fishermall Malabon",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5"]
+  ),
+
+  // --- NON-METRO MANILA CINEMAS (retained from previous data, adjusted for consistency) ---
 
   // SM City Sta. Rosa Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Laguna",
       address: "National Rd., Santa Rosa, Laguna",
       contact: "(049) 534-0400",
     },
     "SM City Sta. Rosa",
-    4, // Increased to 4 regular cinemas
-    [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
 
   // Robinsons Place Antipolo Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Antipolo",
       address: "Sumulong Hwy., Antipolo, Rizal",
       contact: "(02) 8650-3000",
     },
     "Robinsons Place Antipolo",
-    4, // Increased to 4 regular cinemas
-    [
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-        ],
-      },
-    ]
-  ),
-
-  // Ayala Malls Cloverleaf Cinema
-  ...createNumberedCinemas(
-    {
-      location: "Metro Manila",
-      city: "Quezon City",
-      address: "A. Bonifacio Ave., Quezon City, Metro Manila",
-      contact: "(02) 7759-8000",
-    },
-    "Ayala Malls Cloverleaf",
-    3, // 3 regular cinemas
-    [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
 
   // SM City Marilao Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Bulacan",
       address: "MacArthur Hwy., Marilao, Bulacan",
       contact: "(044) 933-2000",
     },
     "SM City Marilao",
-    4, // Increased to 4 regular cinemas
-    [
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
 
   // Robinsons Starmills Pampanga Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Pampanga",
       address: "Jose Abad Santos Ave., San Fernando, Pampanga",
       contact: "(045) 875-1000",
     },
     "Robinsons Starmills Pampanga",
-    3, // 3 regular cinemas
-    [
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3"]
   ),
 
   // Ayala Malls Solenad Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Laguna",
       address: "Nuvali Blvd., Santa Rosa, Laguna",
       contact: "(049) 544-5000",
     },
     "Ayala Malls Solenad",
-    3, // 3 regular cinemas
-    [
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3"]
   ),
 
   // SM City Dasmariñas Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Cavite",
       address: "Governor's Dr., Dasmariñas, Cavite",
       contact: "(046) 416-0000",
     },
     "SM City Dasmariñas",
-    4, // Increased to 4 regular cinemas
-    [
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m2",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m4",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "12:00 PM", type: "2D" },
-          { time: "03:00 PM", type: "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
 
   // Robinsons Place Gen. Trias Cinema
-  ...createNumberedCinemas(
+  ...createCinemasFromScreenList(
     {
       location: "Cavite",
       address: "Arnaldo Hwy., General Trias, Cavite",
       contact: "(046) 437-0000",
     },
     "Robinsons Place Gen. Trias",
-    3, // 3 regular cinemas
-    [
-      {
-        movieId: "m1",
-        showtimes: [
-          { time: "10:00 AM", type: "2D" },
-          { time: "01:00 PM", type: "2D" },
-          { time: "04:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m3",
-        showtimes: [
-          { time: "11:00 AM", type: "2D" },
-          { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "2D" },
-        ],
-      },
-      {
-        movieId: "m5",
-        showtimes: [
-          { time: "10:30 AM", type: "2D" },
-          { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", "type": "2D" },
-        ],
-      },
-    ]
+    ["Cinema 1", "Cinema 2", "Cinema 3"]
   ),
 ];

@@ -16,6 +16,7 @@ export const metroManilaCities: MetroManilaCity[] = [
   "Pasay",
   "Valenzuela",
   "Muntinlupa",
+  "Novaliches", // Added Novaliches
 ];
 
 export const locations: Location[] = [
