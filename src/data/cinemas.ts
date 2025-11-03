@@ -2,8 +2,8 @@ import { Cinema } from "./types";
 
 export const mockCinemas: Cinema[] = [
   {
-    id: "c1",
-    name: "SM Megamall Cinema",
+    id: "c1-regular",
+    name: "SM Megamall - Regular Cinemas",
     location: "Metro Manila",
     city: "Mandaluyong",
     address: "EDSA, Mandaluyong, Metro Manila",
@@ -16,7 +16,6 @@ export const mockCinemas: Cinema[] = [
           { time: "01:30 PM", type: "2D" },
           { time: "04:00 PM", type: "3D" },
           { time: "07:00 PM", type: "2D" },
-          { time: "09:30 PM", type: "IMAX" },
         ],
       },
       {
@@ -24,7 +23,6 @@ export const mockCinemas: Cinema[] = [
         showtimes: [
           { time: "11:00 AM", type: "2D" },
           { time: "02:00 PM", type: "2D" },
-          { time: "05:00 PM", type: "Director's Club" },
           { time: "08:00 PM", type: "2D" },
         ],
       },
@@ -34,6 +32,38 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:30 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c1-imax",
+    name: "SM Megamall - IMAX",
+    location: "Metro Manila",
+    city: "Mandaluyong",
+    address: "EDSA, Mandaluyong, Metro Manila",
+    contact: "(02) 8633-5041",
+    moviesPlaying: [
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "09:30 PM", type: "IMAX" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c1-directors-club",
+    name: "SM Megamall - Director's Club",
+    location: "Metro Manila",
+    city: "Mandaluyong",
+    address: "EDSA, Mandaluyong, Metro Manila",
+    contact: "(02) 8633-5041",
+    moviesPlaying: [
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "05:00 PM", type: "Director's Club" },
         ],
       },
     ],
