@@ -211,6 +211,110 @@ export const mockCinemas: Cinema[] = [
     ],
   },
   {
+    id: "c15",
+    name: "Robinsons Place Las Piñas Cinema",
+    location: "Metro Manila",
+    city: "Las Piñas",
+    address: "Alabang–Zapote Road, Las Piñas, Metro Manila",
+    contact: "(02) 8800-0000",
+    moviesPlaying: [
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "10:00 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
+          { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c16",
+    name: "SM City Manila Cinema",
+    location: "Metro Manila",
+    city: "Manila",
+    address: "Natividad Almeda-Lopez St., Ermita, Manila",
+    contact: "(02) 8523-7044",
+    moviesPlaying: [
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "04:30 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "11:30 AM", type: "2D" },
+          { time: "02:30 PM", type: "2D" },
+          { time: "05:30 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c17",
+    name: "SM City Caloocan Cinema",
+    location: "Metro Manila",
+    city: "Caloocan",
+    address: "Bagong Barrio, Caloocan, Metro Manila",
+    contact: "(02) 8362-0000",
+    moviesPlaying: [
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "10:00 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
+          { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c18",
+    name: "Ayala Malls South Park Cinema",
+    location: "Metro Manila",
+    city: "Muntinlupa",
+    address: "National Road, Alabang, Muntinlupa, Metro Manila",
+    contact: "(02) 7759-8000",
+    moviesPlaying: [
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "10:00 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
+          { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
     id: "c4",
     name: "SM City Sta. Rosa Cinema",
     location: "Laguna",
@@ -471,7 +575,7 @@ export const mockCinemas: Cinema[] = [
         showtimes: [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
-          { time: "07:00 PM", type: "2D" },
+          { time: "07:00 PM", "type": "2D" },
         ],
       },
     ],
