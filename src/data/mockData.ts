@@ -2,16 +2,11 @@ import { format } from "date-fns";
 
 export type Location =
   | "Metro Manila"
-  | "Rizal"
   | "Laguna"
-  | "Pampanga"
-  | "Cavite"
+  | "Antipolo"
   | "Bulacan"
-  | "Batangas"
-  | "Pangasinan"
-  | "Zambales"
-  | "Quezon"
-  | "Baguio";
+  | "Pampanga"
+  | "Cavite";
 
 export interface Showtime {
   time: string; // e.g., "10:00 AM", "01:30 PM"
@@ -46,16 +41,11 @@ export interface Cinema {
 
 export const locations: Location[] = [
   "Metro Manila",
-  "Rizal",
   "Laguna",
+  "Antipolo",
+  "Bulacan",
   "Pampanga",
   "Cavite",
-  "Bulacan",
-  "Batangas",
-  "Pangasinan",
-  "Zambales",
-  "Quezon",
-  "Baguio",
 ];
 
 export const mockMovies: Movie[] = [
@@ -134,10 +124,10 @@ export const mockMovies: Movie[] = [
 export const mockCinemas: Cinema[] = [
   {
     id: "c1",
-    name: "Mega Cinema Manila",
+    name: "SM Megamall Cinema",
     location: "Metro Manila",
-    address: "123 Main St, City Center, Metro Manila",
-    contact: "(02) 8123-4567",
+    address: "EDSA, Mandaluyong, Metro Manila",
+    contact: "(02) 8633-5041",
     moviesPlaying: [
       {
         movieId: "m1",
@@ -162,10 +152,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c2",
-    name: "Star Cineplex Rizal",
-    location: "Rizal",
-    address: "456 Rizal Ave, Greenhills, Rizal",
-    contact: "(02) 8987-6543",
+    name: "Robinsons Galleria Cinema",
+    location: "Metro Manila",
+    address: "EDSA cor. Ortigas Ave., Quezon City, Metro Manila",
+    contact: "(02) 8631-8000",
     moviesPlaying: [
       {
         movieId: "m1",
@@ -188,10 +178,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c3",
-    name: "Laguna Grand Cinemas",
-    location: "Laguna",
-    address: "789 Lakeview Rd, Santa Rosa, Laguna",
-    contact: "(049) 555-1234",
+    name: "Ayala Malls Manila Bay Cinema",
+    location: "Metro Manila",
+    address: "Aseana Ave., Parañaque, Metro Manila",
+    contact: "(02) 7759-8000",
     moviesPlaying: [
       {
         movieId: "m2",
@@ -213,10 +203,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c4",
-    name: "Pampanga CineHub",
-    location: "Pampanga",
-    address: "101 Angeles Blvd, Angeles City, Pampanga",
-    contact: "(045) 666-7890",
+    name: "SM City Sta. Rosa Cinema",
+    location: "Laguna",
+    address: "National Rd., Santa Rosa, Laguna",
+    contact: "(049) 534-0400",
     moviesPlaying: [
       {
         movieId: "m1",
@@ -239,10 +229,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c5",
-    name: "Cavite Filmhouse",
-    location: "Cavite",
-    address: "202 Coastal Rd, Bacoor, Cavite",
-    contact: "(046) 777-1122",
+    name: "Robinsons Place Antipolo Cinema",
+    location: "Antipolo",
+    address: "Sumulong Hwy., Antipolo, Rizal",
+    contact: "(02) 8650-3000",
     moviesPlaying: [
       {
         movieId: "m3",
@@ -264,10 +254,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c6",
-    name: "Bulacan Cinema World",
-    location: "Bulacan",
-    address: "303 Bulacan St, Malolos, Bulacan",
-    contact: "(044) 888-3344",
+    name: "Ayala Malls Cloverleaf Cinema",
+    location: "Metro Manila",
+    address: "A. Bonifacio Ave., Quezon City, Metro Manila",
+    contact: "(02) 7759-8000",
     moviesPlaying: [
       {
         movieId: "m1",
@@ -281,10 +271,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c7",
-    name: "Batangas Cineplex",
-    location: "Batangas",
-    address: "404 Batangas Blvd, Lipa City, Batangas",
-    contact: "(043) 999-5566",
+    name: "SM City Marilao Cinema",
+    location: "Bulacan",
+    address: "MacArthur Hwy., Marilao, Bulacan",
+    contact: "(044) 933-2000",
     moviesPlaying: [
       {
         movieId: "m2",
@@ -298,10 +288,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c8",
-    name: "Pangasinan Movie House",
-    location: "Pangasinan",
-    address: "505 Dagupan Rd, Dagupan City, Pangasinan",
-    contact: "(075) 111-7788",
+    name: "Robinsons Starmills Pampanga Cinema",
+    location: "Pampanga",
+    address: "Jose Abad Santos Ave., San Fernando, Pampanga",
+    contact: "(045) 875-1000",
     moviesPlaying: [
       {
         movieId: "m3",
@@ -315,10 +305,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c9",
-    name: "Zambales Silver Screen",
-    location: "Zambales",
-    address: "606 Olongapo St, Olongapo City, Zambales",
-    contact: "(047) 222-9900",
+    name: "Ayala Malls Solenad Cinema",
+    location: "Laguna",
+    address: "Nuvali Blvd., Santa Rosa, Laguna",
+    contact: "(049) 544-5000",
     moviesPlaying: [
       {
         movieId: "m4",
@@ -332,10 +322,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c10",
-    name: "Quezon Cine Vista",
-    location: "Quezon",
-    address: "707 Lucena Ave, Lucena City, Quezon",
-    contact: "(042) 333-1122",
+    name: "SM City Dasmariñas Cinema",
+    location: "Cavite",
+    address: "Governor's Dr., Dasmariñas, Cavite",
+    contact: "(046) 416-0000",
     moviesPlaying: [
       {
         movieId: "m5",
@@ -349,10 +339,10 @@ export const mockCinemas: Cinema[] = [
   },
   {
     id: "c11",
-    name: "Baguio Peak Cinemas",
-    location: "Baguio",
-    address: "808 Session Rd, Baguio City, Baguio",
-    contact: "(074) 444-3344",
+    name: "Robinsons Place Gen. Trias Cinema",
+    location: "Cavite",
+    address: "Arnaldo Hwy., General Trias, Cavite",
+    contact: "(046) 437-0000",
     moviesPlaying: [
       {
         movieId: "m1",
