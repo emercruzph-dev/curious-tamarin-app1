@@ -529,31 +529,7 @@ export const mockCinemas: Cinema[] = [
     ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5"]
   ),
 
-  // --- NON-METRO MANILA CINEMAS (retained from previous data, adjusted for consistency) ---
-
-  // SM City Sta. Rosa Cinema
-  ...createCinemasFromScreenList(
-    {
-      location: "Laguna",
-      address: "National Rd., Santa Rosa, Laguna",
-      contact: "(049) 534-0400",
-    },
-    "SM City Sta. Rosa",
-    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
-  ),
-
-  // Robinsons Place Antipolo Cinema
-  ...createCinemasFromScreenList(
-    {
-      location: "Antipolo",
-      address: "Sumulong Hwy., Antipolo, Rizal",
-      contact: "(02) 8650-3000",
-    },
-    "Robinsons Place Antipolo",
-    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
-  ),
-
-  // SM City Marilao Cinema
+  // --- BULACAN CINEMAS ---
   ...createCinemasFromScreenList(
     {
       location: "Bulacan",
@@ -563,30 +539,80 @@ export const mockCinemas: Cinema[] = [
     "SM City Marilao",
     ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
-
-  // Robinsons Starmills Pampanga Cinema
   ...createCinemasFromScreenList(
     {
-      location: "Pampanga",
-      address: "Jose Abad Santos Ave., San Fernando, Pampanga",
-      contact: "(045) 875-1000",
+      location: "Bulacan",
+      address: "DRT Highway, Baliwag, Bulacan",
+      contact: "(044) 761-0000",
     },
-    "Robinsons Starmills Pampanga",
-    ["Cinema 1", "Cinema 2", "Cinema 3"]
+    "SM City Baliwag",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
-
-  // Ayala Malls Solenad Cinema
   ...createCinemasFromScreenList(
     {
-      location: "Laguna",
-      address: "Nuvali Blvd., Santa Rosa, Laguna",
-      contact: "(049) 544-5000",
+      location: "Bulacan",
+      address: "Quirino Highway, San Jose Del Monte, Bulacan",
+      contact: "(044) 769-0000",
     },
-    "Ayala Malls Solenad",
+    "SM City San Jose Del Monte",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Bulacan",
+      address: "Plaridel-Pulilan Diversion Road, Pulilan, Bulacan",
+      contact: "(044) 795-0000",
+    },
+    "SM Center Pulilan",
+    ["Cinema 1", "Cinema 2"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Bulacan",
+      address: "MacArthur Hwy., Malolos, Bulacan",
+      contact: "(044) 791-0000",
+    },
+    "Robinsons Place Malolos",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Bulacan",
+      address: "Quirino Highway, San Jose Del Monte, Bulacan",
+      contact: "(044) 769-0000",
+    },
+    "Starmall San Jose Del Monte",
     ["Cinema 1", "Cinema 2", "Cinema 3"]
   ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Bulacan",
+      address: "MacArthur Hwy., Bocaue, Bulacan",
+      contact: "(044) 792-0000",
+    },
+    "CityMall Bocaue",
+    ["Cinema 1"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Bulacan",
+      address: "MacArthur Hwy., Malolos, Bulacan",
+      contact: "(044) 794-0000",
+    },
+    "Vista Mall Malolos",
+    ["VIP Theater", "Multiplex"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Bulacan",
+      address: "Sta. Maria-Tungkong Mangga Road, Sta. Maria, Bulacan",
+      contact: "(044) 793-0000",
+    },
+    "Waltermart Sta. Maria",
+    ["Cinema 1", "Cinema 2"]
+  ),
 
-  // SM City Dasmariñas Cinema
+  // --- CAVITE CINEMAS ---
   ...createCinemasFromScreenList(
     {
       location: "Cavite",
@@ -594,17 +620,145 @@ export const mockCinemas: Cinema[] = [
       contact: "(046) 416-0000",
     },
     "SM City Dasmariñas",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Director’s Club"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Cavite",
+      address: "Aguinaldo Hwy., Bacoor, Cavite",
+      contact: "(046) 417-0000",
+    },
+    "SM City Bacoor",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Cavite",
+      address: "Molino Rd., Bacoor, Cavite",
+      contact: "(046) 481-0000",
+    },
+    "SM City Molino",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Cavite",
+      address: "Aguinaldo Hwy., Imus, Cavite",
+      contact: "(046) 471-0000",
+    },
+    "Robinsons Place Imus",
     ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
   ),
-
-  // Robinsons Place Gen. Trias Cinema
   ...createCinemasFromScreenList(
     {
       location: "Cavite",
       address: "Arnaldo Hwy., General Trias, Cavite",
       contact: "(046) 437-0000",
     },
-    "Robinsons Place Gen. Trias",
-    ["Cinema 1", "Cinema 2", "Cinema 3"]
+    "Robinsons Place General Trias",
+    ["Cinema 1", "Cinema 2"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Cavite",
+      address: "Aguinaldo Hwy., Tagaytay, Cavite",
+      contact: "(046) 413-0000",
+    },
+    "Fora Mall Tagaytay",
+    ["Cinema 1", "Cinema 2"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Cavite",
+      address: "Aguinaldo Hwy., Dasmariñas, Cavite",
+      contact: "(046) 412-0000",
+    },
+    "Vista Mall Dasmariñas",
+    ["VIP Theater", "Multiplex"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Cavite",
+      address: "Molino Blvd., Bacoor, Cavite",
+      contact: "(046) 481-0000",
+    },
+    "NOMO Lifestyle Center",
+    ["Multiplex", "VIP"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Cavite",
+      address: "Anabu Coastal Road, Imus, Cavite",
+      contact: "(046) 472-0000",
+    },
+    "CityMall Anabu",
+    ["Cinema 1", "Cinema 2"]
+  ),
+
+  // --- ANTIPOLO (RIZAL) CINEMAS ---
+  ...createCinemasFromScreenList(
+    {
+      location: "Antipolo",
+      address: "Sumulong Hwy., Antipolo, Rizal",
+      contact: "(02) 8650-3000",
+    },
+    "Robinsons Place Antipolo",
+    ["Cinema 1", "Cinema 2", "Cinema 4", "Cinema 5", "Cinema 6", "Cinema 7", "Cinema 8"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Antipolo",
+      address: "Marcos Hwy., Antipolo, Rizal",
+      contact: "(02) 8655-0000",
+    },
+    "SM City Masinag",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+
+  // --- LAGUNA CINEMAS ---
+  ...createCinemasFromScreenList(
+    {
+      location: "Laguna",
+      address: "National Rd., Santa Rosa, Laguna",
+      contact: "(049) 534-0400",
+    },
+    "SM City Sta. Rosa",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4", "Cinema 5", "Cinema 6", "Director’s Club"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Laguna",
+      address: "National Rd., Calamba, Laguna",
+      contact: "(049) 545-0000",
+    },
+    "SM City Calamba",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Laguna",
+      address: "National Rd., San Pablo, Laguna",
+      contact: "(049) 562-0000",
+    },
+    "SM City San Pablo",
+    ["Cinema 1", "Cinema 2", "Cinema 3", "Cinema 4"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Laguna",
+      address: "Sta. Rosa-Tagaytay Rd., Santa Rosa, Laguna",
+      contact: "(049) 544-0000",
+    },
+    "Vista Mall Sta. Rosa",
+    ["VIP Cinema", "Multiplex"]
+  ),
+  ...createCinemasFromScreenList(
+    {
+      location: "Laguna",
+      address: "National Rd., Santa Rosa, Laguna",
+      contact: "(049) 534-0000",
+    },
+    "Robinsons Sta. Rosa",
+    ["Cinema 1", "Cinema 2"]
   ),
 ];
