@@ -1,14 +1,54 @@
-import { Cinema } from "./types";
+import { Cinema, Showtime } from "./types";
+
+// Helper function to create numbered cinemas from a base cinema entry
+function createNumberedCinemas(
+  baseCinema: Omit<Cinema, 'id' | 'name' | 'moviesPlaying'>,
+  baseName: string,
+  numCinemas: number,
+  moviesPlaying: { movieId: string; showtimes: Showtime[] }[]
+): Cinema[] {
+  const numberedCinemas: Cinema[] = [];
+  const moviesPerCinema = Math.ceil(moviesPlaying.length / numCinemas);
+
+  for (let i = 0; i < numCinemas; i++) {
+    const cinemaId = `${baseCinema.id}-cinema${i + 1}`;
+    const cinemaName = `${baseName} Cinema ${i + 1}`;
+    const assignedMovies: { movieId: string; showtimes: Showtime[] }[] = [];
+
+    // Distribute movies somewhat evenly in a round-robin fashion
+    for (let j = 0; j < moviesPlaying.length; j++) {
+      if (j % numCinemas === i) {
+        assignedMovies.push(moviesPlaying[j]);
+      }
+    }
+
+    // Ensure each cinema has at least one movie if available, to avoid empty lists
+    if (assignedMovies.length === 0 && moviesPlaying.length > 0) {
+      assignedMovies.push(moviesPlaying[i % moviesPlaying.length]);
+    }
+
+    numberedCinemas.push({
+      ...baseCinema,
+      id: cinemaId,
+      name: cinemaName,
+      moviesPlaying: assignedMovies,
+    });
+  }
+  return numberedCinemas;
+}
 
 export const mockCinemas: Cinema[] = [
-  {
-    id: "c1-regular",
-    name: "SM Megamall - Regular Cinemas",
-    location: "Metro Manila",
-    city: "Mandaluyong",
-    address: "EDSA, Mandaluyong, Metro Manila",
-    contact: "(02) 8633-5041",
-    moviesPlaying: [
+  // SM Megamall
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Mandaluyong",
+      address: "EDSA, Mandaluyong, Metro Manila",
+      contact: "(02) 8633-5041",
+    },
+    "SM Megamall",
+    4, // 4 regular cinemas
+    [
       {
         movieId: "m1",
         showtimes: [
@@ -33,8 +73,8 @@ export const mockCinemas: Cinema[] = [
           { time: "04:30 PM", type: "2D" },
         ],
       },
-    ],
-  },
+    ]
+  ),
   {
     id: "c1-imax",
     name: "SM Megamall - IMAX",
@@ -68,14 +108,18 @@ export const mockCinemas: Cinema[] = [
       },
     ],
   },
-  {
-    id: "c2",
-    name: "Robinsons Galleria Cinema",
-    location: "Metro Manila",
-    city: "Quezon City",
-    address: "EDSA cor. Ortigas Ave., Quezon City, Metro Manila",
-    contact: "(02) 8631-8000",
-    moviesPlaying: [
+
+  // Robinsons Galleria Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "EDSA cor. Ortigas Ave., Quezon City, Metro Manila",
+      contact: "(02) 8631-8000",
+    },
+    "Robinsons Galleria",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m1",
         showtimes: [
@@ -101,16 +145,20 @@ export const mockCinemas: Cinema[] = [
           { time: "09:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c3",
-    name: "Ayala Malls Manila Bay Cinema",
-    location: "Metro Manila",
-    city: "Parañaque",
-    address: "Aseana Ave., Parañaque, Metro Manila",
-    contact: "(02) 7759-8000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Ayala Malls Manila Bay Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Parañaque",
+      address: "Aseana Ave., Parañaque, Metro Manila",
+      contact: "(02) 7759-8000",
+    },
+    "Ayala Malls Manila Bay",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m2",
         showtimes: [
@@ -135,16 +183,20 @@ export const mockCinemas: Cinema[] = [
           { time: "07:30 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c12-regular",
-    name: "SM Aura Premier - Regular Cinemas",
-    location: "Metro Manila",
-    city: "Taguig",
-    address: "C5 Road, Taguig, Metro Manila",
-    contact: "(02) 8815-7888",
-    moviesPlaying: [
+    ]
+  ),
+
+  // SM Aura Premier
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Taguig",
+      address: "C5 Road, Taguig, Metro Manila",
+      contact: "(02) 8815-7888",
+    },
+    "SM Aura Premier",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m1",
         showtimes: [
@@ -168,8 +220,8 @@ export const mockCinemas: Cinema[] = [
           { time: "04:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
+    ]
+  ),
   {
     id: "c12-directors-club",
     name: "SM Aura Premier - Director's Club",
@@ -202,14 +254,18 @@ export const mockCinemas: Cinema[] = [
       },
     ],
   },
-  {
-    id: "c13-regular",
-    name: "Greenbelt 3 - Regular Cinemas",
-    location: "Metro Manila",
-    city: "Makati",
-    address: "Ayala Center, Makati, Metro Manila",
-    contact: "(02) 7752-7272",
-    moviesPlaying: [
+
+  // Greenbelt 3
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Makati",
+      address: "Ayala Center, Makati, Metro Manila",
+      contact: "(02) 7752-7272",
+    },
+    "Greenbelt 3",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m2",
         showtimes: [
@@ -233,8 +289,8 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
+    ]
+  ),
   {
     id: "c13-directors-club",
     name: "Greenbelt 3 - Director's Club",
@@ -251,14 +307,18 @@ export const mockCinemas: Cinema[] = [
       },
     ],
   },
-  {
-    id: "c14",
-    name: "Robinsons Metro East Cinema",
-    location: "Metro Manila",
-    city: "Pasig",
-    address: "Marcos Hwy, Pasig, Metro Manila",
-    contact: "(02) 8681-0530",
-    moviesPlaying: [
+
+  // Robinsons Metro East Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Pasig",
+      address: "Marcos Hwy, Pasig, Metro Manila",
+      contact: "(02) 8681-0530",
+    },
+    "Robinsons Metro East",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m4",
         showtimes: [
@@ -283,16 +343,20 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c15",
-    name: "Robinsons Place Las Piñas Cinema",
-    location: "Metro Manila",
-    city: "Las Piñas",
-    address: "Alabang–Zapote Road, Las Piñas, Metro Manila",
-    contact: "(02) 8800-0000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Robinsons Place Las Piñas Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Las Piñas",
+      address: "Alabang–Zapote Road, Las Piñas, Metro Manila",
+      contact: "(02) 8800-0000",
+    },
+    "Robinsons Place Las Piñas",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m1",
         showtimes: [
@@ -309,16 +373,20 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c16",
-    name: "SM City Manila Cinema",
-    location: "Metro Manila",
-    city: "Manila",
-    address: "Natividad Almeda-Lopez St., Ermita, Manila",
-    contact: "(02) 8523-7044",
-    moviesPlaying: [
+    ]
+  ),
+
+  // SM City Manila Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Manila",
+      address: "Natividad Almeda-Lopez St., Ermita, Manila",
+      contact: "(02) 8523-7044",
+    },
+    "SM City Manila",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m2",
         showtimes: [
@@ -335,16 +403,20 @@ export const mockCinemas: Cinema[] = [
           { time: "05:30 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c17",
-    name: "SM City Caloocan Cinema",
-    location: "Metro Manila",
-    city: "Caloocan",
-    address: "Bagong Barrio, Caloocan, Metro Manila",
-    contact: "(02) 8362-0000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // SM City Caloocan Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Caloocan",
+      address: "Bagong Barrio, Caloocan, Metro Manila",
+      contact: "(02) 8362-0000",
+    },
+    "SM City Caloocan",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m5",
         showtimes: [
@@ -361,16 +433,20 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c18",
-    name: "Ayala Malls South Park Cinema",
-    location: "Metro Manila",
-    city: "Muntinlupa",
-    address: "National Road, Alabang, Muntinlupa, Metro Manila",
-    contact: "(02) 7759-8000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Ayala Malls South Park Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Muntinlupa",
+      address: "National Road, Alabang, Muntinlupa, Metro Manila",
+      contact: "(02) 7759-8000",
+    },
+    "Ayala Malls South Park",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m2",
         showtimes: [
@@ -387,15 +463,19 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c4",
-    name: "SM City Sta. Rosa Cinema",
-    location: "Laguna",
-    address: "National Rd., Santa Rosa, Laguna",
-    contact: "(049) 534-0400",
-    moviesPlaying: [
+    ]
+  ),
+
+  // SM City Sta. Rosa Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Laguna",
+      address: "National Rd., Santa Rosa, Laguna",
+      contact: "(049) 534-0400",
+    },
+    "SM City Sta. Rosa",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m1",
         showtimes: [
@@ -421,15 +501,19 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c5",
-    name: "Robinsons Place Antipolo Cinema",
-    location: "Antipolo",
-    address: "Sumulong Hwy., Antipolo, Rizal",
-    contact: "(02) 8650-3000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Robinsons Place Antipolo Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Antipolo",
+      address: "Sumulong Hwy., Antipolo, Rizal",
+      contact: "(02) 8650-3000",
+    },
+    "Robinsons Place Antipolo",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m3",
         showtimes: [
@@ -454,16 +538,20 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c6",
-    name: "Ayala Malls Cloverleaf Cinema",
-    location: "Metro Manila",
-    city: "Quezon City",
-    address: "A. Bonifacio Ave., Quezon City, Metro Manila",
-    contact: "(02) 7759-8000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Ayala Malls Cloverleaf Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Metro Manila",
+      city: "Quezon City",
+      address: "A. Bonifacio Ave., Quezon City, Metro Manila",
+      contact: "(02) 7759-8000",
+    },
+    "Ayala Malls Cloverleaf",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m1",
         showtimes: [
@@ -488,15 +576,19 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c7",
-    name: "SM City Marilao Cinema",
-    location: "Bulacan",
-    address: "MacArthur Hwy., Marilao, Bulacan",
-    contact: "(044) 933-2000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // SM City Marilao Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Bulacan",
+      address: "MacArthur Hwy., Marilao, Bulacan",
+      contact: "(044) 933-2000",
+    },
+    "SM City Marilao",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m2",
         showtimes: [
@@ -521,15 +613,19 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c8",
-    name: "Robinsons Starmills Pampanga Cinema",
-    location: "Pampanga",
-    address: "Jose Abad Santos Ave., San Fernando, Pampanga",
-    contact: "(045) 875-1000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Robinsons Starmills Pampanga Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Pampanga",
+      address: "Jose Abad Santos Ave., San Fernando, Pampanga",
+      contact: "(045) 875-1000",
+    },
+    "Robinsons Starmills Pampanga",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m3",
         showtimes: [
@@ -554,15 +650,19 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c9",
-    name: "Ayala Malls Solenad Cinema",
-    location: "Laguna",
-    address: "Nuvali Blvd., Santa Rosa, Laguna",
-    contact: "(049) 544-5000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Ayala Malls Solenad Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Laguna",
+      address: "Nuvali Blvd., Santa Rosa, Laguna",
+      contact: "(049) 544-5000",
+    },
+    "Ayala Malls Solenad",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m4",
         showtimes: [
@@ -587,15 +687,19 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c10",
-    name: "SM City Dasmariñas Cinema",
-    location: "Cavite",
-    address: "Governor's Dr., Dasmariñas, Cavite",
-    contact: "(046) 416-0000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // SM City Dasmariñas Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Cavite",
+      address: "Governor's Dr., Dasmariñas, Cavite",
+      contact: "(046) 416-0000",
+    },
+    "SM City Dasmariñas",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m5",
         showtimes: [
@@ -620,15 +724,19 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
-    ],
-  },
-  {
-    id: "c11",
-    name: "Robinsons Place Gen. Trias Cinema",
-    location: "Cavite",
-    address: "Arnaldo Hwy., General Trias, Cavite",
-    contact: "(046) 437-0000",
-    moviesPlaying: [
+    ]
+  ),
+
+  // Robinsons Place Gen. Trias Cinema
+  ...createNumberedCinemas(
+    {
+      location: "Cavite",
+      address: "Arnaldo Hwy., General Trias, Cavite",
+      contact: "(046) 437-0000",
+    },
+    "Robinsons Place Gen. Trias",
+    3, // 3 regular cinemas
+    [
       {
         movieId: "m1",
         showtimes: [
@@ -653,6 +761,6 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", "type": "2D" },
         ],
       },
-    ],
-  },
+    ]
+  ),
 ];
