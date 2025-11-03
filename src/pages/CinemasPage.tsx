@@ -33,8 +33,10 @@ const CinemasPage: React.FC = () => {
     return matchesSearch && matchesLocation && matchesCity;
   });
 
-  // Sort locations and Metro Manila cities alphabetically
-  const sortedLocations = [...locations].sort();
+  // Sort locations with "Metro Manila" always at the top
+  const otherLocations = locations.filter(loc => loc !== "Metro Manila").sort();
+  const sortedLocations = ["Metro Manila", ...otherLocations];
+  
   const sortedMetroManilaCities = [...metroManilaCities].sort();
 
   return (
