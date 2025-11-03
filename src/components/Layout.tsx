@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="bg-primary text-primary-foreground p-4 shadow-md">
-        <h1 className="text-2xl font-bold text-center">Movie & Cinema Guide</h1>
+        <h1 className="text-2xl font-bold text-center">PH Movies and NCR Cinema Guide</h1>
       </header>
 
       <div className="flex-grow container mx-auto p-4 max-w-screen-md">
