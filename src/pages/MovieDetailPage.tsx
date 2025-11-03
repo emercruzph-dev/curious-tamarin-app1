@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
-import { mockMovies, mockCinemas, Movie, Cinema, Showtime, Location } from "@/data/mockData";
+import { mockMovies, mockCinemas, metroManilaCities, Movie, Cinema, Showtime, Location, MetroManilaCity } from "@/data/mockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ const MovieDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const movie = mockMovies.find((m) => m.id === id);
   const [selectedLocation, setSelectedLocation] = React.useState<Location | "all">("all");
+  const [selectedMetroManilaCity, setSelectedMetroManilaCity] = React.useState<MetroManilaCity | "all">("all");
 
   if (!movie) {
     return (
@@ -26,10 +27,22 @@ const MovieDetailPage: React.FC = () => {
     );
   }
 
+  const handleLocationChange = (value: Location | "all") => {
+    setSelectedLocation(value);
+    // Reset city filter if location changes and it's not Metro Manila
+    if (value !== "Metro Manila") {
+      setSelectedMetroManilaCity("all");
+    }
+  };
+
   const cinemasShowingMovie = mockCinemas.filter((cinema) => {
     const hasMovie = cinema.moviesPlaying.some((mp) => mp.movieId === movie.id);
     const matchesLocation = selectedLocation === "all" || cinema.location === selectedLocation;
-    return hasMovie && matchesLocation;
+    const matchesCity =
+      selectedLocation !== "Metro Manila" ||
+      selectedMetroManilaCity === "all" ||
+      cinema.city === selectedMetroManilaCity;
+    return hasMovie && matchesLocation && matchesCity;
   });
 
   return (
@@ -87,8 +100,8 @@ const MovieDetailPage: React.FC = () => {
         </Card>
 
         <h3 className="text-2xl font-bold mt-6">Showtimes</h3>
-        <div className="flex justify-end mb-4">
-          <Select value={selectedLocation} onValueChange={(value: Location | "all") => setSelectedLocation(value)}>
+        <div className="flex flex-col sm:flex-row justify-end gap-2 mb-4">
+          <Select value={selectedLocation} onValueChange={handleLocationChange}>
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Filter by location" />
             </SelectTrigger>
@@ -101,6 +114,22 @@ const MovieDetailPage: React.FC = () => {
               ))}
             </SelectContent>
           </Select>
+
+          {selectedLocation === "Metro Manila" && (
+            <Select value={selectedMetroManilaCity} onValueChange={(value: MetroManilaCity | "all") => setSelectedMetroManilaCity(value)}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="Filter by city" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Cities</SelectItem>
+                {metroManilaCities.map((city) => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
         {cinemasShowingMovie.length > 0 ? (

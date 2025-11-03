@@ -8,6 +8,23 @@ export type Location =
   | "Pampanga"
   | "Cavite";
 
+export type MetroManilaCity =
+  | "Mandaluyong"
+  | "Quezon City"
+  | "Parañaque"
+  | "Makati"
+  | "Taguig"
+  | "Pasig";
+
+export const metroManilaCities: MetroManilaCity[] = [
+  "Mandaluyong",
+  "Quezon City",
+  "Parañaque",
+  "Makati",
+  "Taguig",
+  "Pasig",
+];
+
 export interface Showtime {
   time: string; // e.g., "10:00 AM", "01:30 PM"
   type: "2D" | "3D" | "IMAX" | "Director's Club";
@@ -31,6 +48,7 @@ export interface Cinema {
   id: string;
   name: string;
   location: Location;
+  city?: MetroManilaCity; // Optional city property for Metro Manila cinemas
   address: string;
   contact: string;
   moviesPlaying: {
@@ -126,6 +144,7 @@ export const mockCinemas: Cinema[] = [
     id: "c1",
     name: "SM Megamall Cinema",
     location: "Metro Manila",
+    city: "Mandaluyong",
     address: "EDSA, Mandaluyong, Metro Manila",
     contact: "(02) 8633-5041",
     moviesPlaying: [
@@ -154,6 +173,7 @@ export const mockCinemas: Cinema[] = [
     id: "c2",
     name: "Robinsons Galleria Cinema",
     location: "Metro Manila",
+    city: "Quezon City",
     address: "EDSA cor. Ortigas Ave., Quezon City, Metro Manila",
     contact: "(02) 8631-8000",
     moviesPlaying: [
@@ -180,6 +200,7 @@ export const mockCinemas: Cinema[] = [
     id: "c3",
     name: "Ayala Malls Manila Bay Cinema",
     location: "Metro Manila",
+    city: "Parañaque",
     address: "Aseana Ave., Parañaque, Metro Manila",
     contact: "(02) 7759-8000",
     moviesPlaying: [
@@ -197,6 +218,77 @@ export const mockCinemas: Cinema[] = [
           { time: "11:00 AM", type: "2D" },
           { time: "02:30 PM", type: "2D" },
           { time: "06:00 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c12",
+    name: "SM Aura Premier Cinema",
+    location: "Metro Manila",
+    city: "Taguig",
+    address: "C5 Road, Taguig, Metro Manila",
+    contact: "(02) 8815-7888",
+    moviesPlaying: [
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:00 PM", type: "Director's Club" },
+          { time: "03:30 PM", type: "2D" },
+          { time: "06:00 PM", type: "IMAX" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c13",
+    name: "Greenbelt 3 Cinemas",
+    location: "Metro Manila",
+    city: "Makati",
+    address: "Ayala Center, Makati, Metro Manila",
+    contact: "(02) 7752-7272",
+    moviesPlaying: [
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "10:00 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
+          { time: "04:00 PM", type: "Director's Club" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "c14",
+    name: "Robinsons Metro East Cinema",
+    location: "Metro Manila",
+    city: "Pasig",
+    address: "Marcos Hwy, Pasig, Metro Manila",
+    contact: "(02) 8681-0530",
+    moviesPlaying: [
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "10:00 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
+          { time: "04:00 PM", type: "2D" },
         ],
       },
     ],
@@ -256,6 +348,7 @@ export const mockCinemas: Cinema[] = [
     id: "c6",
     name: "Ayala Malls Cloverleaf Cinema",
     location: "Metro Manila",
+    city: "Quezon City",
     address: "A. Bonifacio Ave., Quezon City, Metro Manila",
     contact: "(02) 7759-8000",
     moviesPlaying: [
