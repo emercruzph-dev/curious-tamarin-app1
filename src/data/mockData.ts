@@ -167,6 +167,14 @@ export const mockCinemas: Cinema[] = [
           { time: "08:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
+          { time: "04:30 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -194,6 +202,14 @@ export const mockCinemas: Cinema[] = [
           { time: "07:30 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
+          { time: "09:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -218,6 +234,14 @@ export const mockCinemas: Cinema[] = [
           { time: "11:00 AM", type: "2D" },
           { time: "02:30 PM", type: "2D" },
           { time: "06:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:30 PM", type: "2D" },
         ],
       },
     ],
@@ -247,6 +271,14 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "10:00 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
+          { time: "04:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -273,6 +305,14 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -289,6 +329,22 @@ export const mockCinemas: Cinema[] = [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
         ],
       },
     ],
@@ -317,6 +373,14 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -342,6 +406,14 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -358,6 +430,22 @@ export const mockCinemas: Cinema[] = [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
         ],
       },
     ],
@@ -377,6 +465,22 @@ export const mockCinemas: Cinema[] = [
           { time: "04:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -392,6 +496,22 @@ export const mockCinemas: Cinema[] = [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
         ],
       },
     ],
@@ -411,6 +531,22 @@ export const mockCinemas: Cinema[] = [
           { time: "04:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -428,6 +564,22 @@ export const mockCinemas: Cinema[] = [
           { time: "04:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
+        ],
+      },
     ],
   },
   {
@@ -443,6 +595,22 @@ export const mockCinemas: Cinema[] = [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
         ],
       },
     ],
