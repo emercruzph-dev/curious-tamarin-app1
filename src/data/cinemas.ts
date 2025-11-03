@@ -8,7 +8,6 @@ function createNumberedCinemas(
   moviesPlaying: { movieId: string; showtimes: Showtime[] }[]
 ): Cinema[] {
   const numberedCinemas: Cinema[] = [];
-  const moviesPerCinema = Math.ceil(moviesPlaying.length / numCinemas);
 
   for (let i = 0; i < numCinemas; i++) {
     const cinemaId = `${baseCinema.id}-cinema${i + 1}`;
@@ -23,6 +22,7 @@ function createNumberedCinemas(
     }
 
     // Ensure each cinema has at least one movie if available, to avoid empty lists
+    // This also helps if numCinemas is greater than moviesPlaying.length
     if (assignedMovies.length === 0 && moviesPlaying.length > 0) {
       assignedMovies.push(moviesPlaying[i % moviesPlaying.length]);
     }
@@ -47,14 +47,16 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8633-5041",
     },
     "SM Megamall",
-    4, // 4 regular cinemas
+    8, // Increased to 8 regular cinemas
     [
       {
         movieId: "m1",
         showtimes: [
           { time: "10:00 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
+          { time: "04:00 PM", type: "2D" },
           { time: "07:00 PM", type: "2D" },
+          { time: "09:30 PM", type: "2D" },
         ],
       },
       {
@@ -62,6 +64,7 @@ export const mockCinemas: Cinema[] = [
         showtimes: [
           { time: "11:00 AM", type: "2D" },
           { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
           { time: "08:00 PM", type: "2D" },
         ],
       },
@@ -71,6 +74,25 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:30 PM", type: "2D" },
+          { time: "07:30 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
+          { time: "06:00 PM", type: "2D" },
+          { time: "09:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "10:45 AM", type: "2D" },
+          { time: "01:45 PM", type: "2D" },
+          { time: "04:45 PM", type: "2D" },
+          { time: "07:45 PM", type: "2D" },
         ],
       },
     ]
@@ -118,7 +140,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8631-8000",
     },
     "Robinsons Galleria",
-    3, // 3 regular cinemas
+    5, // Increased to 5 regular cinemas
     [
       {
         movieId: "m1",
@@ -126,6 +148,7 @@ export const mockCinemas: Cinema[] = [
           { time: "11:30 AM", type: "2D" },
           { time: "02:30 PM", type: "2D" },
           { time: "06:00 PM", type: "2D" },
+          { time: "09:00 PM", type: "2D" },
         ],
       },
       {
@@ -145,6 +168,14 @@ export const mockCinemas: Cinema[] = [
           { time: "09:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "11:00 AM", type: "2D" },
+          { time: "02:00 PM", type: "2D" },
+          { time: "05:00 PM", type: "2D" },
+        ],
+      },
     ]
   ),
 
@@ -157,7 +188,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 7759-8000",
     },
     "Ayala Malls Manila Bay",
-    3, // 3 regular cinemas
+    6, // Increased to 6 regular cinemas
     [
       {
         movieId: "m2",
@@ -165,6 +196,7 @@ export const mockCinemas: Cinema[] = [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:00 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
         ],
       },
       {
@@ -173,6 +205,7 @@ export const mockCinemas: Cinema[] = [
           { time: "11:00 AM", type: "2D" },
           { time: "02:30 PM", type: "2D" },
           { time: "06:00 PM", type: "2D" },
+          { time: "09:00 PM", type: "2D" },
         ],
       },
       {
@@ -181,6 +214,14 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
           { time: "07:30 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "11:15 AM", type: "2D" },
+          { time: "02:15 PM", type: "2D" },
+          { time: "05:15 PM", type: "2D" },
         ],
       },
     ]
@@ -195,13 +236,14 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8815-7888",
     },
     "SM Aura Premier",
-    3, // 3 regular cinemas
+    5, // Increased to 5 regular cinemas
     [
       {
         movieId: "m1",
         showtimes: [
           { time: "10:30 AM", type: "2D" },
           { time: "03:30 PM", type: "2D" },
+          { time: "06:30 PM", type: "2D" },
         ],
       },
       {
@@ -210,6 +252,7 @@ export const mockCinemas: Cinema[] = [
           { time: "11:00 AM", type: "2D" },
           { time: "02:00 PM", type: "2D" },
           { time: "05:00 PM", type: "2D" },
+          { time: "08:00 PM", type: "2D" },
         ],
       },
       {
@@ -218,6 +261,13 @@ export const mockCinemas: Cinema[] = [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "12:30 PM", type: "2D" },
+          { time: "03:30 PM", type: "2D" },
         ],
       },
     ]
@@ -234,6 +284,7 @@ export const mockCinemas: Cinema[] = [
         movieId: "m1",
         showtimes: [
           { time: "01:00 PM", type: "Director's Club" },
+          { time: "07:00 PM", type: "Director's Club" },
         ],
       },
     ],
@@ -250,6 +301,7 @@ export const mockCinemas: Cinema[] = [
         movieId: "m1",
         showtimes: [
           { time: "06:00 PM", type: "IMAX" },
+          { time: "09:30 PM", type: "IMAX" },
         ],
       },
     ],
@@ -264,13 +316,14 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 7752-7272",
     },
     "Greenbelt 3",
-    3, // 3 regular cinemas
+    4, // Increased to 4 regular cinemas
     [
       {
         movieId: "m2",
         showtimes: [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
+          { time: "04:00 PM", type: "2D" },
         ],
       },
       {
@@ -279,6 +332,7 @@ export const mockCinemas: Cinema[] = [
           { time: "11:00 AM", type: "2D" },
           { time: "02:00 PM", type: "2D" },
           { time: "05:00 PM", type: "2D" },
+          { time: "08:00 PM", type: "2D" },
         ],
       },
       {
@@ -287,6 +341,13 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
           { time: "07:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
         ],
       },
     ]
@@ -303,6 +364,7 @@ export const mockCinemas: Cinema[] = [
         movieId: "m2",
         showtimes: [
           { time: "04:00 PM", type: "Director's Club" },
+          { time: "09:00 PM", type: "Director's Club" },
         ],
       },
     ],
@@ -317,7 +379,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8681-0530",
     },
     "Robinsons Metro East",
-    3, // 3 regular cinemas
+    4, // Increased to 4 regular cinemas
     [
       {
         movieId: "m4",
@@ -325,6 +387,7 @@ export const mockCinemas: Cinema[] = [
           { time: "10:00 AM", type: "2D" },
           { time: "01:00 PM", type: "2D" },
           { time: "04:00 PM", type: "2D" },
+          { time: "07:00 PM", type: "2D" },
         ],
       },
       {
@@ -333,6 +396,7 @@ export const mockCinemas: Cinema[] = [
           { time: "11:00 AM", type: "2D" },
           { time: "02:00 PM", type: "2D" },
           { time: "05:00 PM", type: "2D" },
+          { time: "08:00 PM", type: "2D" },
         ],
       },
       {
@@ -341,6 +405,13 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
           { time: "07:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
         ],
       },
     ]
@@ -373,6 +444,13 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m2",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+        ],
+      },
     ]
   ),
 
@@ -385,7 +463,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8523-7044",
     },
     "SM City Manila",
-    3, // 3 regular cinemas
+    4, // Increased to 4 regular cinemas
     [
       {
         movieId: "m2",
@@ -393,6 +471,7 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
           { time: "04:30 PM", type: "2D" },
+          { time: "07:30 PM", type: "2D" },
         ],
       },
       {
@@ -401,6 +480,14 @@ export const mockCinemas: Cinema[] = [
           { time: "11:30 AM", type: "2D" },
           { time: "02:30 PM", type: "2D" },
           { time: "05:30 PM", type: "2D" },
+          { time: "08:30 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "10:00 AM", type: "2D" },
+          { time: "01:00 PM", type: "2D" },
         ],
       },
     ]
@@ -433,6 +520,13 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+        ],
+      },
     ]
   ),
 
@@ -463,6 +557,13 @@ export const mockCinemas: Cinema[] = [
           { time: "05:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m4",
+        showtimes: [
+          { time: "10:30 AM", type: "2D" },
+          { time: "01:30 PM", type: "2D" },
+        ],
+      },
     ]
   ),
 
@@ -474,7 +575,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(049) 534-0400",
     },
     "SM City Sta. Rosa",
-    3, // 3 regular cinemas
+    4, // Increased to 4 regular cinemas
     [
       {
         movieId: "m1",
@@ -501,6 +602,13 @@ export const mockCinemas: Cinema[] = [
           { time: "07:00 PM", type: "2D" },
         ],
       },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
+        ],
+      },
     ]
   ),
 
@@ -512,7 +620,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(02) 8650-3000",
     },
     "Robinsons Place Antipolo",
-    3, // 3 regular cinemas
+    4, // Increased to 4 regular cinemas
     [
       {
         movieId: "m3",
@@ -536,6 +644,13 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
           { time: "07:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m5",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
         ],
       },
     ]
@@ -587,7 +702,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(044) 933-2000",
     },
     "SM City Marilao",
-    3, // 3 regular cinemas
+    4, // Increased to 4 regular cinemas
     [
       {
         movieId: "m2",
@@ -611,6 +726,13 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
           { time: "07:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m3",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
         ],
       },
     ]
@@ -698,7 +820,7 @@ export const mockCinemas: Cinema[] = [
       contact: "(046) 416-0000",
     },
     "SM City Dasmariñas",
-    3, // 3 regular cinemas
+    4, // Increased to 4 regular cinemas
     [
       {
         movieId: "m5",
@@ -722,6 +844,13 @@ export const mockCinemas: Cinema[] = [
           { time: "10:30 AM", type: "2D" },
           { time: "01:30 PM", type: "2D" },
           { time: "07:00 PM", type: "2D" },
+        ],
+      },
+      {
+        movieId: "m1",
+        showtimes: [
+          { time: "12:00 PM", type: "2D" },
+          { time: "03:00 PM", type: "2D" },
         ],
       },
     ]
