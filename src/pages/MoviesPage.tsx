@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { mockMovies, locations, Movie, Location } from "@/data"; // Corrected import path
+import { mockMovies, locations, metroManilaCities, Movie, Location, MetroManilaCity } from "@/data";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +9,15 @@ import { Badge } from "@/components/ui/badge";
 const MoviesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedLocation, setSelectedLocation] = React.useState<Location | "all">("all");
+  const [selectedMetroManilaCity, setSelectedMetroManilaCity] = React.useState<MetroManilaCity | "all">("all");
+
+  const handleLocationChange = (value: Location | "all") => {
+    setSelectedLocation(value);
+    // Reset city filter if location changes and it's not Metro Manila
+    if (value !== "Metro Manila") {
+      setSelectedMetroManilaCity("all");
+    }
+  };
 
   const filteredMovies = mockMovies.filter((movie) => {
     const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -28,7 +37,7 @@ const MoviesPage: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="flex-grow"
         />
-        <Select value={selectedLocation} onValueChange={(value: Location | "all") => setSelectedLocation(value)}>
+        <Select value={selectedLocation} onValueChange={handleLocationChange}>
           <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Filter by location" />
           </SelectTrigger>
@@ -41,6 +50,22 @@ const MoviesPage: React.FC = () => {
             ))}
           </SelectContent>
         </Select>
+
+        {selectedLocation === "Metro Manila" && (
+          <Select value={selectedMetroManilaCity} onValueChange={(value: MetroManilaCity | "all") => setSelectedMetroManilaCity(value)}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Filter by city" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Cities</SelectItem>
+              {metroManilaCities.map((city) => (
+                <SelectItem key={city} value={city}>
+                  {city}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
