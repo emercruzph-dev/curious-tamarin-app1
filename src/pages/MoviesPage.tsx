@@ -1,15 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { mockMovies, locations, metroManilaCities, Movie, Location, MetroManilaCity } from "@/data";
+import { mockMovies, mockCinemas, locations, metroManilaCities, Movie, Location, MetroManilaCity } from "@/data";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Film } from "lucide-react";
 
 const MoviesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedLocation, setSelectedLocation] = React.useState<Location | "all">("all");
   const [selectedMetroManilaCity, setSelectedMetroManilaCity] = React.useState<MetroManilaCity | "all">("all");
+  const [showNowShowing, setShowNowShowing] = React.useState(true); // Default to now showing
 
   const handleLocationChange = (value: Location | "all") => {
     setSelectedLocation(value);
@@ -19,14 +23,25 @@ const MoviesPage: React.FC = () => {
     }
   };
 
-  const filteredMovies = mockMovies.filter((movie) => {
-    const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-    // For movies, we don't filter by location directly on the movie list,
-    // but rather show all movies and then their showtimes will be location-specific.
-    // The location filter here will be for future use or if we decide to show
-    // "movies playing in X location" on this page. For now, it's a placeholder.
-    return matchesSearch;
-  });
+  const filteredMovies = React.useMemo(() => {
+    let moviesToFilter = mockMovies;
+
+    if (showNowShowing) {
+      // Get a set of movie IDs that are currently playing in any cinema
+      const nowShowingMovieIds = new Set<string>();
+      mockCinemas.forEach(cinema => {
+        cinema.moviesPlaying.forEach(moviePlaying => {
+          nowShowingMovieIds.add(moviePlaying.movieId);
+        });
+      });
+      moviesToFilter = mockMovies.filter(movie => nowShowingMovieIds.has(movie.id));
+    }
+
+    return moviesToFilter.filter((movie) => {
+      const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesSearch;
+    });
+  }, [searchTerm, showNowShowing]);
 
   // Sort locations with "Metro Manila" always at the top
   const otherLocations = locations.filter(loc => loc !== "Metro Manila").sort();
@@ -72,6 +87,16 @@ const MoviesPage: React.FC = () => {
             </SelectContent>
           </Select>
         )}
+      </div>
+
+      <div className="flex items-center space-x-2 justify-end">
+        <Film className="h-4 w-4 text-muted-foreground" />
+        <Label htmlFor="show-now-showing">Show Now Showing</Label>
+        <Switch
+          id="show-now-showing"
+          checked={showNowShowing}
+          onCheckedChange={setShowNowShowing}
+        />
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
