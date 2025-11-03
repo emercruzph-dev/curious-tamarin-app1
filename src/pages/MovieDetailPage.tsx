@@ -45,6 +45,10 @@ const MovieDetailPage: React.FC = () => {
     return hasMovie && matchesLocation && matchesCity;
   });
 
+  // Sort locations and Metro Manila cities alphabetically
+  const allLocations = Array.from(new Set(mockCinemas.map(c => c.location))).sort();
+  const sortedMetroManilaCities = [...metroManilaCities].sort();
+
   return (
     <ScrollArea className="h-[calc(100vh-180px)]">
       <div className="p-4 space-y-6">
@@ -107,7 +111,7 @@ const MovieDetailPage: React.FC = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Locations</SelectItem>
-              {Array.from(new Set(mockCinemas.map(c => c.location))).map((loc) => (
+              {allLocations.map((loc) => (
                 <SelectItem key={loc} value={loc}>
                   {loc}
                 </SelectItem>
@@ -122,7 +126,7 @@ const MovieDetailPage: React.FC = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Cities</SelectItem>
-                {metroManilaCities.map((city) => (
+                {sortedMetroManilaCities.map((city) => (
                   <SelectItem key={city} value={city}>
                     {city}
                   </SelectItem>
